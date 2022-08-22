@@ -63,6 +63,9 @@ namespace StreamingService.Services
 
         private bool ValidateIncomingUserDetails(string emailAddress)
         {
+            // This class has been seperated out.
+            // Would need to consider if this is the sole place a user can be created...
+            // ... and would need their details checked
             bool result = true;
 
             if (string.IsNullOrWhiteSpace(emailAddress))
@@ -84,6 +87,7 @@ namespace StreamingService.Services
             {
                 EmailAddress = emailAddress,
                 SubscriptionId = subscription.Id,
+                Subscription = subscription
             };
 
             // ToDo: The magic "FreeSongs" values should be added into a package database class

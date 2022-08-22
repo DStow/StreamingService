@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace StreamingService.Repositories
 {
@@ -22,7 +23,7 @@ namespace StreamingService.Repositories
 
         public IEnumerable<User> GetAll()
         {
-            var result = this._context.Users.ToList();
+            var result = this._context.Users.Include(x => x.Subscription).ToList();
             return result;
         }
 
