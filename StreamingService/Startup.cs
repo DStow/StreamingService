@@ -25,6 +25,8 @@ namespace StreamingService
             services.AddScoped<Repositories.IUserRepository, UserRepository>();
             services.AddScoped<Repositories.ISubscriptionRepository, SubscriptionRepository>();
             services.AddScoped<Utilities.ILogger, Utilities.ConsoleLogger>();
+            services.AddScoped<Services.IUserService, Services.UserService>();
+            services.AddScoped<Services.ISubscriptionService, Services.SubscriptionService>();
 
             services.AddControllers();
         }

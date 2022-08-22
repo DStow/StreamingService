@@ -12,11 +12,11 @@ namespace StreamingService.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private UserService _userService;
+        private IUserService _userService;
 
-        public UserController(IUserRepository userRepository, ISubscriptionRepository subscriptionRepository, Utilities.ILogger logger)
+        public UserController(IUserService userService)
         {
-            _userService = new UserService(userRepository, new SubscriptionService(subscriptionRepository), logger);
+            _userService = userService;
         }
 
         [HttpPost]
