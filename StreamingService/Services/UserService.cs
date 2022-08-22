@@ -2,6 +2,7 @@
 using StreamingService.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StreamingService.Services
 {
@@ -70,7 +71,10 @@ namespace StreamingService.Services
         public IEnumerable<User> GetUsersWithRemainingSongsThisMonth()
         {
             //Todo
-            throw new NotImplementedException();
+            var context = new Context();
+            var users = context.Users.Where(x => x.RemainingSongsThisMonth > 0).ToList();
+
+            return users;
         }
 
         /// <summary>
