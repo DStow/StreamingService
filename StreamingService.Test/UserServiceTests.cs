@@ -138,7 +138,7 @@ namespace StreamingService.Test
         }
 
         [Fact]
-        public void GetUsersWithRemainingSongsThisMonth_IncludingUnlimited()
+        public void GetUsersWithRemainingSongsThisMonth()
         {
             // We want to make sure that unlimited users are being included here
             var mockUserRepo = new MockRepositories.MockUserRepository();
