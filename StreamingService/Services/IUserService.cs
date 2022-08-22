@@ -12,5 +12,7 @@ namespace StreamingService.Services
         IEnumerable<User> GetUsers();
 
         IEnumerable<User> GetUsersWithRemainingSongsThisMonth();
+
+        void ResetRemainingSongsThisMonth();
     }
 }

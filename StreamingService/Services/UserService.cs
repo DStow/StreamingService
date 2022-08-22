@@ -61,6 +61,24 @@ namespace StreamingService.Services
             return true;
         }
 
+        // ToDo: This should be a scheduled service outside of this website.
+        // Beyond the scope of the streaming service and is currently exposed to any user
+        // to call from the controller (Appreciate this is just a mock test)
+        /// <summary>
+        /// To be called once per month at a fixed day/time to set every user's 
+        ///  RemainingSongsThisMonth back to their FreeSongs limit.
+        /// </summary>
+        public void ResetRemainingSongsThisMonth()
+        {
+            var context = new Context();
+            var userRepository = new UserRepository(context);
+            foreach (User u in userRepository.GetAll())
+            {
+                u.ResetRemainingSongsThisMonth();
+            }
+            context.SaveChanges();
+        }
+
         private bool ValidateIncomingUserDetails(string emailAddress)
         {
             // This class has been seperated out.

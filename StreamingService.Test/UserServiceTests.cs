@@ -6,7 +6,7 @@ using System.Linq;
 namespace StreamingService.Test
 {
     /// <summary>
-    /// Test suite for <see cref="UserServiceOld"/>.
+    /// Test suite for <see cref="UserService"/>.
     /// </summary>
     public class UserServiceTests
     {

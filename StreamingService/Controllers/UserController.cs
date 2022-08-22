@@ -44,9 +44,7 @@ namespace StreamingService.Controllers
         [Route("reset")]
         public void ResetRemainingSongsThisMonth()
         {
-           // var userService = new UserService(new Repositories.UserRepository(_context));
-            // ToDo: Implement this
-           // userService.ResetRemainingSongsThisMonth();
+            _userService.ResetRemainingSongsThisMonth();
         }
 
         public class SubscribeModel
