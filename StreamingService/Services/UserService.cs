@@ -28,7 +28,7 @@ namespace StreamingService.Services
         public IEnumerable<User> GetUsersWithRemainingSongsThisMonth()
         {
             var results = GetUsers();
-            // Include a check for unlimited users
+            // This now includes a check for unlimitted users
             results = results.Where(x => x.RemainingSongsThisMonth > 0 || x.Subscription.Package == Packages.Unlimitted);
             return results;
         }
@@ -47,7 +47,8 @@ namespace StreamingService.Services
                 return false;
             }
 
-            // Should this be from the subscription service? Rather than directly into the repository?
+            // This is now called from a service. Lateralling moving into a service rather than down into another
+            // models repository
             var subscription = _subscriptionService.GetById(subscriptionId);
 
             // Also extracted this part of the function
