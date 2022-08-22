@@ -25,7 +25,8 @@ namespace StreamingService.Services
         public IEnumerable<User> GetUsersWithRemainingSongsThisMonth()
         {
             var results = GetUsers();
-            results = results.Where(x => x.RemainingSongsThisMonth > 0);
+            // Include a check for unlimited users
+            results = results.Where(x => x.RemainingSongsThisMonth > 0 || x.Subscription.Package == Packages.Unlimitted);
             return results;
         }
 
