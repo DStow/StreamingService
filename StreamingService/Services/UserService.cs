@@ -10,11 +10,13 @@ namespace StreamingService.Services
     {
         private IUserRepository _userRepository;
         private ISubscriptionRepository _subscriptionRepository;
+        private Utilities.ILogger _logger;
 
-        public UserService(IUserRepository userRepository, ISubscriptionRepository subscriptionRepository)
+        public UserService(IUserRepository userRepository, ISubscriptionRepository subscriptionRepository, Utilities.ILogger logger)
         {
             _userRepository = userRepository;
             _subscriptionRepository = subscriptionRepository;
+            _logger = logger;
         }
 
         public IEnumerable<User> GetUsers()
@@ -32,7 +34,7 @@ namespace StreamingService.Services
 
         public bool Subscribe(string emailAddress, Guid subscriptionId)
         {
-            Console.WriteLine(string.Format("Log: Start add user with email '{0}'", emailAddress));
+            _logger.Log(string.Format("Start add user with email '{0}'", emailAddress));
 
             if (string.IsNullOrWhiteSpace(emailAddress))
             {
@@ -73,7 +75,7 @@ namespace StreamingService.Services
 
             _userRepository.Add(user);
 
-            Console.WriteLine(string.Format("Log: End add user with email '{0}'", emailAddress));
+            _logger.Log(string.Format("End add user with email '{0}'", emailAddress));
 
             return true;
         }
