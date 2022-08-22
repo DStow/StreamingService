@@ -18,11 +18,14 @@ namespace StreamingService.Models
         }
     }
 
-    public class UnlimittedUser : User
-    {
-        public override void ResetRemainingSongsThisMonth()
-        {
-            throw new NotImplementedException();
-        }
-    }
+
+    // This should ideally be a limited and unlimited user
+    // limited user would have a free songs and remaining songs property
+    //public class UnlimittedUser : User
+    //{
+    //    public override void ResetRemainingSongsThisMonth()
+    //    {
+    //        this.RemainingSongsThisMonth = 0;
+    //    }
+    //}
 }

@@ -1,4 +1,5 @@
 ﻿using StreamingService.Models;
+using StreamingService.Utilities;
 using System;
 using System.Collections.Generic;
 using StreamingService.Repositories;
@@ -10,9 +11,9 @@ namespace StreamingService.Services
     {
         private IUserRepository _userRepository;
         private ISubscriptionRepository _subscriptionRepository;
-        private Utilities.ILogger _logger;
+        private ILogger _logger;
 
-        public UserService(IUserRepository userRepository, ISubscriptionRepository subscriptionRepository, Utilities.ILogger logger)
+        public UserService(IUserRepository userRepository, ISubscriptionRepository subscriptionRepository, ILogger logger)
         {
             _userRepository = userRepository;
             _subscriptionRepository = subscriptionRepository;
@@ -34,7 +35,34 @@ namespace StreamingService.Services
 
         public bool Subscribe(string emailAddress, Guid subscriptionId)
         {
+            // This function is quite long, best to cut it down to more bitesize chunks
+            // for better readability
+
+            // Also implemented the ILogger, encase we want to swap this to a text file log or other later
             _logger.Log(string.Format("Start add user with email '{0}'", emailAddress));
+
+            // Extracted this part of the function
+            if (ValidateIncomingUserDetails(emailAddress) == false)
+            {
+                return false;
+            }
+
+            // Should this be from the subscription service? Rather than directly into the repository?
+            var subscription = _subscriptionRepository.GetById(subscriptionId);
+
+            // Also extracted this part of the function
+            User newUser = CreateNewUser(subscription, emailAddress);
+
+            _userRepository.Add(newUser);
+
+            _logger.Log(string.Format("End add user with email '{0}'", emailAddress));
+
+            return true;
+        }
+
+        private bool ValidateIncomingUserDetails(string emailAddress)
+        {
+            bool result = true;
 
             if (string.IsNullOrWhiteSpace(emailAddress))
             {
@@ -46,38 +74,38 @@ namespace StreamingService.Services
                 return false;
             }
 
-            var subscription = _subscriptionRepository.GetById(subscriptionId);
+            return result;
+        }
 
-            var user = new User
+        private User CreateNewUser(Subscription subscription, string emailAddress)
+        {
+            var newUser = new User
             {
                 EmailAddress = emailAddress,
-                SubscriptionId = subscriptionId,
+                SubscriptionId = subscription.Id,
             };
 
+            // ToDo: The magic "FreeSongs" values should be added into a package database class
             if (subscription.Package == Packages.Freemium)
             {
-                user.FreeSongs = 3;
-                user.RemainingSongsThisMonth = user.FreeSongs;
+                newUser.FreeSongs = 3;
+                newUser.RemainingSongsThisMonth = newUser.FreeSongs;
             }
             else if (subscription.Package == Packages.Premium)
             {
-                user.FreeSongs = 3 * 5;
-                user.RemainingSongsThisMonth = user.FreeSongs;
+                newUser.FreeSongs = 3 * 5;
+                newUser.RemainingSongsThisMonth = newUser.FreeSongs;
             }
-            else if (subscription.Package == Packages.Unlimitted)
-            {
-                user = new UnlimittedUser
-                {
-                    EmailAddress = emailAddress,
-                    SubscriptionId = subscriptionId,
-                };
-            }
-
-            _userRepository.Add(user);
-
-            _logger.Log(string.Format("End add user with email '{0}'", emailAddress));
-
-            return true;
+            //// This makes no odds. The Unlimited user does nothing special and is not currently return from the database as such
+            //// Ideally added to the database as a limited and unlimited user with a database disciminator?
+            //else if (subscription.Package == Packages.Unlimitted)
+            //{
+            //    user = new UnlimittedUser
+            //    {
+            //        EmailAddress = emailAddress,
+            //        SubscriptionId = subscriptionId,
+            //    };
+            //}
         }
     }
 }
