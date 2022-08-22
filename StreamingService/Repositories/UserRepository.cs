@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StreamingService.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly Context _context;
 

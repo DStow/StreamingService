@@ -22,6 +22,9 @@ namespace StreamingService
         {
             services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("StreamingService")));
 
+            services.AddScoped<Repositories.IUserRepository, UserRepository>();
+            services.AddScoped<Repositories.ISubscriptionRepository, SubscriptionRepository>();
+
             services.AddControllers();
         }
 

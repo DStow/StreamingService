@@ -5,11 +5,11 @@ using Xunit;
 namespace StreamingService.Test
 {
     /// <summary>
-    /// Test suite for <see cref="UserService"/>.
+    /// Test suite for <see cref="UserServiceOld"/>.
     /// </summary>
     public class UserServiceTests
     {
-        public readonly UserService SUT = new();
+        public readonly UserServiceOld SUT = new();
 
         [Fact]
         public void SubscribeFreemium()
