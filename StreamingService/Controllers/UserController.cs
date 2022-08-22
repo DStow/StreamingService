@@ -20,10 +20,9 @@ namespace StreamingService.Controllers
         }
 
         [HttpPost]
-        public void Subscribe([FromBody] SubscribeModel model)
+        public bool Subscribe([FromBody] SubscribeModel model)
         {
-            var userService = new UserServiceOld();
-            userService.Subscribe(model.EmailAddress, model.SubscriptionId);
+            return _userService.Subscribe(model.EmailAddress, model.SubscriptionId);
         }
 
         [HttpGet]
