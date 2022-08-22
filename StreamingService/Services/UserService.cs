@@ -10,13 +10,13 @@ namespace StreamingService.Services
     public class UserService : IUserService
     {
         private IUserRepository _userRepository;
-        private ISubscriptionRepository _subscriptionRepository;
+        private ISubscriptionService _subscriptionService;
         private ILogger _logger;
 
-        public UserService(IUserRepository userRepository, ISubscriptionRepository subscriptionRepository, ILogger logger)
+        public UserService(IUserRepository userRepository, ISubscriptionService subscriptionService, ILogger logger)
         {
             _userRepository = userRepository;
-            _subscriptionRepository = subscriptionRepository;
+            _subscriptionService = subscriptionService;
             _logger = logger;
         }
 
@@ -48,7 +48,7 @@ namespace StreamingService.Services
             }
 
             // Should this be from the subscription service? Rather than directly into the repository?
-            var subscription = _subscriptionRepository.GetById(subscriptionId);
+            var subscription = _subscriptionService.GetById(subscriptionId);
 
             // Also extracted this part of the function
             User newUser = CreateNewUser(subscription, emailAddress);
@@ -106,6 +106,8 @@ namespace StreamingService.Services
             //        SubscriptionId = subscriptionId,
             //    };
             //}
+
+            return newUser;
         }
     }
 }

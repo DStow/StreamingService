@@ -16,7 +16,7 @@ namespace StreamingService.Controllers
 
         public UserController(IUserRepository userRepository, ISubscriptionRepository subscriptionRepository, Utilities.ILogger logger)
         {
-            _userService = new UserService(userRepository, subscriptionRepository, logger);
+            _userService = new UserService(userRepository, new SubscriptionService(subscriptionRepository), logger);
         }
 
         [HttpPost]
