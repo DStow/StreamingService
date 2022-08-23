@@ -11,6 +11,9 @@ namespace StreamingService.Test.MockRepositories
     {
         List<Subscription> subscriptions = new List<Subscription>();
 
+        // Outside of the interface scope, however we do need a way during mocking
+        // To manually add subscriptions in, which is not something we need 
+        // Contractually from the ISubscriptionRepository
         public void Add(Subscription subscription)
         {
             subscriptions.Add(subscription);
