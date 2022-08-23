@@ -52,7 +52,7 @@ namespace StreamingService.Services
             var subscription = _subscriptionService.GetById(subscriptionId);
 
             // Also extracted this part of the function
-            User newUser = CreateNewUser(subscription, emailAddress);
+            User newUser = Factories.UserFactory.CreateUser(subscription, emailAddress);
 
             _userRepository.Add(newUser);
 
@@ -97,40 +97,6 @@ namespace StreamingService.Services
             }
 
             return result;
-        }
-
-        private User CreateNewUser(Subscription subscription, string emailAddress)
-        {
-            var newUser = new User
-            {
-                EmailAddress = emailAddress,
-                SubscriptionId = subscription.Id,
-                Subscription = subscription
-            };
-
-            // ToDo: The magic "FreeSongs" values should be added into a package database class
-            if (subscription.Package == Packages.Freemium)
-            {
-                newUser.FreeSongs = 3;
-                newUser.RemainingSongsThisMonth = newUser.FreeSongs;
-            }
-            else if (subscription.Package == Packages.Premium)
-            {
-                newUser.FreeSongs = 3 * 5;
-                newUser.RemainingSongsThisMonth = newUser.FreeSongs;
-            }
-            //// This makes no odds. The Unlimited user does nothing special and is not currently return from the database as such
-            //// Ideally added to the database as a limited and unlimited user with a database disciminator?
-            //else if (subscription.Package == Packages.Unlimitted)
-            //{
-            //    user = new UnlimittedUser
-            //    {
-            //        EmailAddress = emailAddress,
-            //        SubscriptionId = subscriptionId,
-            //    };
-            //}
-
-            return newUser;
         }
     }
 }
