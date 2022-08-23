@@ -12,7 +12,7 @@ namespace StreamingService.Test
     {
         //public readonly UserService SUT = new UserService()
 
-        private readonly SubscriptionService subscriptionService;
+        private readonly ISubscriptionService subscriptionService;
 
         private readonly Guid freemiumGuid = Guid.NewGuid();
         private readonly Guid premiumGuid = Guid.NewGuid();
